@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-# Required splinter, random, lorem,
-# $ pip install splinter random lorem
+# Required chrome-driver, splinter, lorem
+# $ pip install splinter lorem
 # ChromeDriver under FreeBSD https://stackoverflow.com/questions/9861830/chromedriver-under-freebsd
 # Please note that if you prefer to use Firefox you will need to install Gekodriver https://github.com/mozilla/geckodriver/releases
 # How to setup: http://splinter.readthedocs.io/en/latest/drivers/chrome.html
@@ -24,7 +24,6 @@ supplimental_file = dir_path + '/Example_ETD.jpg'
 path_to_PDFs = (dir_path)
 
 # Set URL:
-#url = "http://dlhost1.lib.utk.edu/user/"
 url = "http://localhost:8000/user/"
 
 # Set number of submissions to test:

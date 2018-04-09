@@ -11,10 +11,20 @@ Add 2 users to islandora
 * Username: userB
   * Password: userB
 
-## Install modules
+## Install software and modules
+Required: __chrome-driver__, [splinter](https://pypi.python.org/pypi/splinter), [lorem](https://pypi.python.org/pypi/loremipsum) <br/>
+
+[ChromeDriver install for macOS](https://www.kenst.com/2015/03/installing-chromedriver-on-mac-osx/)<br/>
+[ChromeDriver install for FreeBSD](https://stackoverflow.com/questions/9861830/chromedriver-under-freebsd)<br/>
+[ChromeDriver install for Windows 10](https://sites.google.com/a/chromium.org/chromedriver/getting-started)<br/>
+[ChromeDriver install for Ubuntu](https://developers.supportbee.com/blog/setting-up-cucumber-to-run-with-Chrome-on-Linux/)<br/>
+Please note that if you prefer to use Firefox you will need to install [Gekodriver](https://github.com/mozilla/geckodriver/releases)
+
+# How to setup: http://splinter.readthedocs.io/en/latest/drivers/chrome.html
+
 ```terminal
-pip install splinter
-pip install lorem
+$ pip install splinter
+$ pip install lorem
 ```
 
 #### Fail safe way (leveraging pipenv)
