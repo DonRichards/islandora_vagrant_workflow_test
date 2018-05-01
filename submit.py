@@ -62,17 +62,17 @@ with Browser('chrome') as browser:
     button.click()
     print ('\n\nInitial Checks for user roles\n\tGoing to http://localhost:8000/admin/people')
     browser.visit('http://localhost:8000/admin/people/permissions/roles')
-    time.sleep(3)
+    # time.sleep(3)
     if browser.is_text_not_present('submitter'):
         print ('\tno submitter role')
         browser.fill('name', 'submitter')
         button = browser.find_by_id('edit-add')
         button.click()
-        time.sleep(3)
+        # time.sleep(3)
         print('\tFinding the role to edit.')
         edit_role_for_user = browser.find_by_xpath("//td[. = 'edit role']/following-sibling::td/a")
         edit_role_for_user.last.click()
-        time.sleep(3)
+        # time.sleep(3)
         print ('\tgrabbing the role id')
         current_url = browser.url
         slashparts = current_url.split('/')
@@ -83,9 +83,9 @@ with Browser('chrome') as browser:
         button = browser.find_by_id('edit-submit')
         button.click()
     print('\tUser roles ready...\n')
-    time.sleep(5)
+    # time.sleep(5)
 
-print('Check to see if ' + str(username) + ' exist')
+print('Initial Checks for non-admin user account\nCheck to see if ' + str(username) + ' exist')
 with Browser('chrome') as browser:
     browser.visit(url)
     browser.fill('name', 'admin')
@@ -93,7 +93,7 @@ with Browser('chrome') as browser:
     button = browser.find_by_id('edit-submit')
     button.click()
 
-    print ('Looking at list of users for ' + str(username))
+    print ('\tLooking at list of users for ' + str(username))
     browser.visit('http://localhost:8000/admin/people')
     if browser.is_text_not_present(username):
         print ('\tno' + str(username))
@@ -106,17 +106,19 @@ with Browser('chrome') as browser:
         button = browser.find_by_id('edit-submit')
         button.click()
         print('\t' + str(username) + ' created.\n')
-    time.sleep(5)
+    print('\tNon-admin user account is ready...\n\n')
+    # time.sleep(5)
+
+print (' ^^^^^^^^^^^ starting with user submissions ^^^^^^^^^^^ ')
+counter = 0
 
 ########### user submissions Audio Collection ###########
 ########### END user submissions Audio Collection #######
 
 ########### user submissions basic image ###########
-counter = 0
-print (' ^^^^^^^^^^^ starting with user submissions ^^^^^^^^^^^ ')
 while (counter < how_many_submissions_to_submit):
     with Browser('chrome') as browser:
-        print ('\n \t<-------------- #' + str(how_many_submissions_to_submit-counter) + ' of user submissions -------------->')
+        print ('\n \t<-------------- #' + str(how_many_submissions_to_submit-counter) + ' of user submissions basic image -------------->')
         # Visit URL
         browser.visit(url)
         print ('\t' + str(username) + ' is logging in at ' + str(url))
@@ -145,7 +147,7 @@ while (counter < how_many_submissions_to_submit):
         button = browser.find_by_id('edit-next')
         button.click()
 
-        time.sleep(1)
+        # time.sleep(1)
         print ('\tuploading file(s)')
         browser.attach_file('files[file]', str(supplimental_file))
         browser.find_by_name('file_upload_button').first.click()
@@ -155,7 +157,7 @@ while (counter < how_many_submissions_to_submit):
         button.click()
 
         print ('\tPausing for ingest to complete')
-        time.sleep(15)
+        # time.sleep(3)
         print ('\t' + str(browser.url) + '\n\n')
         counter = counter + 1
 ########### END user submissions basic image ###########
