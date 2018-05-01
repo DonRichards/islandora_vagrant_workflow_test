@@ -14,13 +14,36 @@ Add 2 users to islandora
 ## Install software and modules
 Required: __chrome-driver__, [splinter](https://pypi.python.org/pypi/splinter), [lorem](https://pypi.python.org/pypi/loremipsum) <br/>
 
+[WINDOWS 10 install Video Tutorial __Chrome-Driver__](https://youtu.be/dz59GsdvUF8)
+* Create a folder `c:\webdrivers`
+* System Properties > Advanced System Settings > Environment Variables > System Variables > Path > Edit > New
+  * c:\webdrivers
+  * Click OK/OK/OK
+* Go to and download "Latest Release" > chromedriver_win32.zip
+* Zip will extract to a single executable file 'chromedriver'
+* Extract file to "c:\webdrivers/chromedriver"
+* To test install open a command terminal and type `chromedriver` and it should start and press `ctrl c` to quit test.
+
+### Install
+Chrome WebDriver is provided by Selenium2. To use it, you need to install Selenium2 via pip
+```shell
+$ [sudo] pip install selenium
+```
+
+It’s important to note that you also need to have Google Chrome installed in your machine.
+```terminal
+$ brew install chromedriver
+```
+
+## Manually Install Chrome drivers (OPTIONAL)
 [ChromeDriver install for macOS](https://www.kenst.com/2015/03/installing-chromedriver-on-mac-osx/)<br/>
 [ChromeDriver install for FreeBSD](https://stackoverflow.com/questions/9861830/chromedriver-under-freebsd)<br/>
 [ChromeDriver install for Windows 10](https://sites.google.com/a/chromium.org/chromedriver/getting-started)<br/>
 [ChromeDriver install for Ubuntu](https://developers.supportbee.com/blog/setting-up-cucumber-to-run-with-Chrome-on-Linux/)<br/>
 Please note that if you prefer to use Firefox you will need to install [Gekodriver](https://github.com/mozilla/geckodriver/releases)
 
-# How to setup: http://splinter.readthedocs.io/en/latest/drivers/chrome.html
+
+# How to setup [Splinter](http://splinter.readthedocs.io/en/latest/drivers/chrome.html)
 
 ```terminal
 $ pip install splinter
@@ -29,27 +52,27 @@ $ pip install lorem
 
 #### Fail safe way (leveraging pipenv)
 ```terminal
-pip install pipenv
+$ pip install pipenv
 
 # this installs the modules
-pipenv sync
+$ pipenv sync
 
 # this starts the python environment
-pipenv shell
+$ pipenv shell
 
 # To start the script
-pipenv run python submit.py
+$ pipenv run python submit.py
 ```
 
 To exit pipenv just type
 ```terminal
-exit
+$ exit
 ```
 
 ## To modify submit.py
 Use the 'SET config section'
 
-```terminal
+```bash
 ########### SET config section ###########
 
 ...

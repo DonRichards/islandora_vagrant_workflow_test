@@ -27,12 +27,14 @@ path_to_PDFs = (dir_path)
 url = "http://localhost:8000/user/"
 
 # Set number of submissions to test:
-how_many_submissions_to_submit = 10
+how_many_submissions_to_submit = 0
+
+username = 'admin'
+password = 'islandora'
 
 ########### END SET config section ###########
 
 ########### Lists to use for random selections ###########
-users = ['userA','userB']
 date_of_Award=['December 2016','May 2017','August 2017','December 2017','May 2018','August 2018','December 2018','May 2019','August 2019','December 2020','May 2020','August 2020']
 degree_Type=['Masters Thesis','Doctoral Dissertation']
 department_name=['Doctor of Philosophy','Master of Architecture','Master of Arts','Master of Landscape Architecture','Master of Music','Master of Science']
@@ -52,139 +54,51 @@ if how_many_submissions_to_submit < 3:
     how_many_submissions_to_submit = 3
 
 
-########### user submissions ###########
+########### user submissions basic image ###########
 counter = 0
 print (' ^^^^^^^^^^^ starting with user submissions ^^^^^^^^^^^ ')
 while (counter < how_many_submissions_to_submit):
     with Browser('chrome') as browser:
+        print ('\n \t<-------------- #' + str(how_many_submissions_to_submit-counter) + ' of user submissions -------------->')
         # Visit URL
         browser.visit(url)
-        random_int = random.randint(0, 19)
-        user = random.choice(users)
-        print ('\n \t<-------------- ' + str(how_many_submissions_to_submit-counter) + ' -------------->')
-        print ('\t' + str(user) + ' is logging in at ' + str(url))
-        browser.fill('name', user)
-        browser.fill('pass', user)
+        print ('\t' + str(username) + ' is logging in at ' + str(url))
+        browser.fill('name', username)
+        browser.fill('pass', password)
 
         # find the search button on the page and click it.
         button = browser.find_by_id('edit-submit')
         button.click()
 
         # From Profile Page click the collection to submit to.
-        print ('\tclicking Submit to Grad Thes')
-        browser.click_link_by_text('Submit Graduate Theses and Dissertations')
+        print ('\tGoing to http://localhost:8000/islandora/object/islandora%3Asp_basic_image_collection/manage/overview/ingest')
+        browser.visit('http://localhost:8000/islandora/object/islandora%3Asp_basic_image_collection/manage/overview/ingest')
+
+        print ('\tclicking Next to start submission')
+        button = browser.find_by_id('edit-next')
+        button.click()
 
         # Filling out the form.
         print ('\tfilling out form')
         browser.fill('titleInfo[title]', str(time.strftime("%m/%d/%Y %H:%M:%S"))+' '+lorem.sentence())
-        browser.fill('name[namePartGiven]', random.choice(first_names))
-        browser.fill('name[namePartFamily]', random.choice(last_names))
-        browser.fill('name[namePartTermsofAddress]', random.choice(name_suffix))
-        browser.fill('name[valueURI]', '1234-1234-1234-1234')
-        browser.find_option_by_text(random.choice(date_of_Award)).first.click()
-        browser.find_option_by_text(random.choice(degree_Type)).first.click()
-        browser.find_option_by_text(random.choice(department_name)).first.click()
-        browser.find_option_by_text(random.choice(discipline)).first.click()
+        browser.fill('titleInfo[subTitle]', str(time.strftime("%m/%d/%Y %H:%M:%S"))+' '+lorem.sentence())
+        browser.fill('originInfo[dateIssued]', '2018')
 
-        # Thesis advisor
-        browser.fill('advisor[0][namePartGiven]', random.choice(name_of_person))
-        browser.fill('advisor[0][namePartFamily]', random.choice(name_of_person))
+        print ('\tclicking Next to the upload page')
+        button = browser.find_by_id('edit-next')
+        button.click()
 
-        # Committee Member
-        browser.fill('committee[0][namePartGiven]', random.choice(name_of_person))
-        browser.fill('committee[0][namePartFamily]', random.choice(name_of_person))
-        browser.fill('abstract', lorem.paragraph())
-        browser.fill('note', lorem.paragraph())
-
-        # Keyword(s) generator
-        keywords_count = random.randint(0, 5)
-        keywords_string = ''
-        while (keywords_count>0):
-            keywords_string += random.choice(discipline)
-            if (keywords_count > 1):
-                keywords_string += ','
-            keywords_count -= 1
-        browser.fill('keywords', keywords_string)
-        button = browser.click_link_by_id('edit-next')
-        print ('\tclicked next')
-
-        # Incase there's an issue loading the page
         time.sleep(1)
         print ('\tuploading file(s)')
-        browser.check('certifying[certify]')
-        browser.attach_file('files[file]', str(my_PDF))
+        browser.attach_file('files[file]', str(supplimental_file))
         browser.find_by_name('file_upload_button').first.click()
-        browser.check('supply_supplemental')
-        supplimental_files_added = 0
-        while (random_int>0):
-            browser.attach_file('files[file'+str(random_int)+']', supplimental_file)
-            random_int = random_int-1
-            supplimental_files_added += 1
-        print ('\t' + str(supplimental_files_added) + ' of supplimental files added')
-        # input("Press Enter to continue...")
-        # Submit
-        browser.find_by_id('edit-next').click()
-        #input("Press Enter to continue...")
-        print ('\tsubmitting')
+
+        print ('\tClicking Injest')
+        button = browser.find_by_id('edit-next')
+        button.click()
+
+        print ('\tPausing for ingest to complete')
         time.sleep(15)
-        print(browser.url)
+        print ('\t' + str(browser.url) + '\n\n')
         counter = counter + 1
-        # input("Press Enter to continue...")
-
-########### END user submissions ###########
-
-
-########### thesis manager edit tests ###########
-with Browser('chrome') as browser:
-    print ('\n\n^^^^^^^^^^^ Now Thesis Manager ^^^^^^^^^^^ \n logging in')
-    browser.visit(url)
-    browser.fill('name', 'thesis_manager')
-    browser.fill('pass', 'thesis_manager')
-    # find the search button on the page and click it.
-    print ('\tclicking the submit Grad Thes text')
-    button = browser.find_by_id('edit-submit')
-    button.click()
-    for i in range(3):
-        print ('\n\t<-------------- clicks item ' + str(i) + ' in list -------------->')
-        browser.click_link_by_text('Items to Accept')
-        print ('\tselects item ' + str(i) + ' in the list')
-        xpath_for_a_submission = '//*[@id="trace-ext-workflow-form"]/div/table[2]/tbody/tr[' + str(i+1) + ']/td[2]/a'
-        button = browser.find_by_xpath(xpath_for_a_submission)
-        button.click()
-        print ('\tmanage files for the submission and clicks edit metadata')
-        browser.click_link_by_text('Manage Files')
-        browser.click_link_by_text('edit')
-        # Old title with new one
-        print ('\tchanges the title')
-        title_was = browser.find_by_tag("textarea").first.value
-        browser.fill('titleInfo[title]', title_was + ' Modified Successfully by thesis_manager')
-        print ('\tsaved changes')
-        browser.find_by_id('edit-update').click()
-        print ('\tsends email')
-        browser.find_option_by_text(random.choice(thesis_manager_email_templates)).first.click()
-        button = browser.find_by_xpath('//*[@id="tm_mail"]/form/input')
-        button.click()
-        browser.click_link_by_text('View the Previous Messages')
-        print ('\tviewed messages')
-        print ('\tnavigates to Items to accept list')
-        browser.visit(url)
-    # Time to Accept a few
-    browser.visit(url)
-    print ('\nnavigates to Items to accept list and clicks check boxes for the first 2 items')
-    browser.click_link_by_text('Items to Accept')
-    browser.find_by_xpath('//*[@id="trace-ext-workflow-form"]/div/table[2]/tbody/tr[1]/td[1]/div')[0].click()
-    browser.find_by_xpath('//*[@id="trace-ext-workflow-form"]/div/table[2]/tbody/tr[2]/td[1]/div')[0].click()
-    browser.find_by_id('edit-submit-accepted').click()
-    browser.find_by_id('edit-confirm-accept').click()
-    print ('\tsubmissions accepted')
-    # Time to Publish 1
-    for j in range(3):
-        print ('\nnavigates to Items to Publish list')
-        browser.click_link_by_text('Items to Publish')
-        browser.find_by_xpath('//*[@id="islandora-simple-workflow-manage-form"]/div/div/table[2]/tbody/tr[1]/td[1]/div').click()
-        print ('\tselects the 1st item and submits')
-        button = browser.click_link_by_id('edit-submit-selected')
-        button = browser.click_link_by_id('edit-confirm-submit')
-        time.sleep(5)
-print ('\n\n all done!')
-########### END thesis manager edit tests ###########
+########### END user submissions basic image ###########
