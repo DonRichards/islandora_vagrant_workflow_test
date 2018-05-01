@@ -29,9 +29,9 @@ url = "http://localhost:8000/user/"
 # Set number of submissions to test:
 how_many_submissions_to_submit = 0
 
-username = 'admin'
-password = 'islandora'
-
+username = 'userB'
+password = 'userB'
+str1 = ''
 ########### END SET config section ###########
 
 ########### Lists to use for random selections ###########
@@ -53,6 +53,63 @@ my_PDF = dir_path + '/' + random.choice([f for f in os.listdir(path_to_PDFs) if 
 if how_many_submissions_to_submit < 3:
     how_many_submissions_to_submit = 3
 
+# Check to see if role exist
+with Browser('chrome') as browser:
+    browser.visit(url)
+    browser.fill('name', 'admin')
+    browser.fill('pass', 'islandora')
+    button = browser.find_by_id('edit-submit')
+    button.click()
+    print ('\n\nInitial Checks for user roles\n\tGoing to http://localhost:8000/admin/people')
+    browser.visit('http://localhost:8000/admin/people/permissions/roles')
+    time.sleep(3)
+    if browser.is_text_not_present('submitter'):
+        print ('\tno submitter role')
+        browser.fill('name', 'submitter')
+        button = browser.find_by_id('edit-add')
+        button.click()
+        time.sleep(3)
+        print('\tFinding the role to edit.')
+        edit_role_for_user = browser.find_by_xpath("//td[. = 'edit role']/following-sibling::td/a")
+        edit_role_for_user.last.click()
+        time.sleep(3)
+        print ('\tgrabbing the role id')
+        current_url = browser.url
+        slashparts = current_url.split('/')
+        str1 = ''.join(slashparts[-1:])
+        browser.find_by_css("input#edit-" + str1 + "-ingest-fedora-objects.rid-" + str1 + ".form-checkbox.real-checkbox").click()
+        browser.find_by_css("input#edit-" + str1 + "-manage-object-properties.rid-" + str1 + ".form-checkbox.real-checkbox").click()
+        browser.find_by_css("input#edit-" + str1 + "-view-old-datastream-versions.rid-" + str1 + ".form-checkbox.real-checkbox").click()
+        button = browser.find_by_id('edit-submit')
+        button.click()
+    print('\tUser roles ready...\n')
+    time.sleep(5)
+
+print('Check to see if ' + str(username) + ' exist')
+with Browser('chrome') as browser:
+    browser.visit(url)
+    browser.fill('name', 'admin')
+    browser.fill('pass', 'islandora')
+    button = browser.find_by_id('edit-submit')
+    button.click()
+
+    print ('Looking at list of users for ' + str(username))
+    browser.visit('http://localhost:8000/admin/people')
+    if browser.is_text_not_present(username):
+        print ('\tno' + str(username))
+        browser.visit('http://localhost:8000/admin/people/create')
+        browser.fill('name', str(username))
+        browser.fill('mail', 'userb@example.com')
+        browser.fill('pass[pass1]', str(password))
+        browser.fill('pass[pass2]', str(password))
+        browser.check('roles[' + str1 + ']')
+        button = browser.find_by_id('edit-submit')
+        button.click()
+        print('\t' + str(username) + ' created.\n')
+    time.sleep(5)
+
+########### user submissions Audio Collection ###########
+########### END user submissions Audio Collection #######
 
 ########### user submissions basic image ###########
 counter = 0
@@ -102,3 +159,34 @@ while (counter < how_many_submissions_to_submit):
         print ('\t' + str(browser.url) + '\n\n')
         counter = counter + 1
 ########### END user submissions basic image ###########
+
+
+########### user submissions Book Collection ###########
+########### END user submissions Book Collection #######
+
+########### user submissions Citations ###########
+########### END user submissions Citations #######
+
+########### user submissions Compound Collection ###########
+########### END user submissions Compound Collection #######
+
+########### user submissions Disk Image Collection ###########
+########### END user submissions Disk Image Collection #######
+
+########### user submissions Entity Collection ###########
+########### END user submissions Entity Collection #######
+
+########### user submissions Large Image Collection ###########
+########### END user submissions Large Image Collection #######
+
+########### user submissions Newspaper Collection ###########
+########### END user submissions Newspaper Collection #######
+
+########### user submissions PDF Collection ###########
+########### END user submissions PDF Collection #######
+
+########### user submissions Video Collection ###########
+########### END user submissions Video Collection #######
+
+########### user submissions Web ARChive Collection ###########
+########### END user submissions Web ARChive Collection #######
