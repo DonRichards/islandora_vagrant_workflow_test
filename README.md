@@ -75,7 +75,22 @@ Use the 'SET config section'
 ```bash
 ########### SET config section ###########
 
-...
+# Set IMAGE: File path(s) need to be absolute
+supplimental_file = dir_path + '/Example_ETD.jpg'
+
+# Set PDF: Folder to look for pdfs (this current folder for PDFs)
+path_to_PDFs = (dir_path)
+
+# Set URL: (this works for islandora_vagrant)
+url = "http://localhost:8000/user/"
+
+# Set number of submissions to test: (anything under 3 will default to 3)
+how_many_submissions_to_submit = 0
+
+username = 'userB'
+password = 'userB'
+
+str1 = ''
 
 ########### END SET config section ########
 ```
