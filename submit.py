@@ -50,7 +50,7 @@ type_of_resource=['text','cartographic','notated music','sound recording','sound
 
 genre=['Actuality','Adaptation','Adventure','Adventure (Nonfiction)','Ancient world','Animal','Art','Aviation','Biographical','Biographical (Nonfiction)','Buddy','Caper','Chase','Children\'s','College','Comedy','Crime','Dance','Dark comedy','Disability','Disaster','Documentary','Domestic comedy','Educational','Erotic','Espionage','Ethnic','Ethnic (Nonfiction)','Ethnographic','Experimental (for subdivisions below, see Appendix A)','Absolute','Abstract live action','Activist','Autobiographical','City symphony','Cubist','Dada','Diary','Feminist','Gay/lesbian','Intermittent animation','Landscape','Loop','Lyrical','Participatory','Portrait','Reflexive','Street','Structural','Surrealist','Text','Trance','Exploitation','Fallen woman','Family','Fantasy','Film noir','Game','Gangster','Historical','Home shopping','Horror','Industrial','Instructional','Interview','Journalism','Jungle','Juvenile delinquency','Lecture','Legal','Magazine','Martial arts','Maternal melodrama','Medical','Medical (Nonfiction)','Melodrama','Military','Music','Music video','Musical','Mystery','Nature','News','Newsreel','Opera','Operetta','Parody','Police','Political','Pornography','Prehistoric','Prison','Propaganda','Public access','Public affairs','Reality-based','Religion','Religious','Road','Romance','Science fiction','Screwball comedy','Show business','Singing cowboy','Situation comedy','Slapstick comedy','Slasher','Soap opera','Social guidance','Social problem','Sophisticated comedy','Speculation','Sponsored','Sports','Sports (Nonfiction)','Survival','Talk','Thriller','Training','Travelogue','Trick','Trigger','Variety','War','War (Nonfiction)','Western','Women','Youth','Yukon']
 
-countries=['Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei','Bulgaria','Burkina Faso','Burundi','Côte d\'Ivoire','Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic','Chad','Chile','China','Colombia','Comoros','Congo (Congo-Brazzaville)','Costa Rica','Croatia','Cuba','Cyprus','Czech Republic','Democratic Republic of the Congo','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia','Ethiopia','Fiji','Finland','France','Gabon','Gambia','Georgia','Germany','Ghana','Greece','Grenada','Guatemala','Guinea','Guinea-Bissau','Guyana','Haiti','Holy See','Honduras','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kiribati','Kuwait','Kyrgyzstan','Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Macedonia (FYROM)','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands','Mauritania','Mauritius','Mexico','Micronesia','Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique','Myanmar (formerly Burma)','Namibia','Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','North Korea','Norway','Oman','Pakistan','Palau','Palestine State','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia','Rwanda','Saint Kitts and Nevis','Saint Lucia','Saint Vincent and the Grenadines','Samoa','San Marino','Sao Tome and Principe','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','Solomon Islands','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan','Suriname','Swaziland','Sweden','Switzerland','Syria','Tajikistan','Tanzania','Thailand','Timor-Leste','Togo','Tonga','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States of America','Uruguay','Uzbekistan','Vanuatu','Venezuela','Viet Nam','Yemen','Zambia','Zimbabwe']
+countries=['Africa','Antarctica','Asia','Australia','Europe','North America','South America']
 
 places=['post office','cheese factory','convention center','club house']
 
@@ -189,7 +189,22 @@ while (counter < how_many_submissions_to_submit):
 
         browser.find_option_by_text(random.choice(physical_description)).click()
         browser.fill('physicalDescription[extent]', '1 online resource (78 pages)')
-        time.sleep(100)
+
+        browser.fill('note',lorem.generate_sentence())
+
+        browser.fill('subject[topic][0]',lorem.generate_sentence())
+        browser.fill('subject[geographic][0]',lorem.generate_sentence())
+        browser.fill('subject[temporal][0]',lorem.generate_sentence())
+
+        browser.find_option_by_text(random.choice(countries)).click()
+
+        browser.fill('subject[hierarchicalGeographic][country]',lorem.generate_sentence())
+        browser.fill('subject[hierarchicalGeographic][province]',lorem.generate_sentence())
+        browser.fill('subject[hierarchicalGeographic][region]',lorem.generate_sentence())
+        browser.fill('subject[hierarchicalGeographic][county]',lorem.generate_sentence())
+        browser.fill('subject[hierarchicalGeographic][city]',lorem.generate_sentence())
+        browser.fill('subject[hierarchicalGeographic][citySection]',lorem.generate_sentence())
+        browser.fill('subject[cartographics][coordinates]','37° 27.432′ N, 115° 28.962′ W')
 
         print ('\tclicking Next to the upload page')
         button = browser.find_by_id('edit-next')
