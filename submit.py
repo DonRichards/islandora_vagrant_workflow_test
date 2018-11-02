@@ -6,11 +6,20 @@
 # Please note that if you prefer to use Firefox you will need to install Gekodriver https://github.com/mozilla/geckodriver/releases
 # How to setup: http://splinter.readthedocs.io/en/latest/drivers/chrome.html
 
+# To run:
+# pipenv install
+# pipenv run python submit.py
+
 import time
 import random
-import lorem
+from transliterate import translit, get_available_language_codes
+from transliterate.contrib.apps.translipsum import TranslipsumGenerator
 from splinter import Browser
 import os
+
+# Randomly select a language. EN will cause errors at this time.
+languages = ['el', 'hy', 'ka', 'ru']
+lorem = TranslipsumGenerator(language_code=random.choice(languages))
 
 # Current working dirrectory
 dir_path = os.getcwd()
@@ -139,8 +148,8 @@ while (counter < how_many_submissions_to_submit):
 
         # Filling out the form.
         print ('\tfilling out form')
-        browser.fill('titleInfo[title]', str(time.strftime("%m/%d/%Y %H:%M:%S"))+' '+lorem.sentence())
-        browser.fill('titleInfo[subTitle]', str(time.strftime("%m/%d/%Y %H:%M:%S"))+' '+lorem.sentence())
+        browser.fill('titleInfo[title]', str(time.strftime("%m/%d/%Y %H:%M:%S"))+' '+lorem.generate_sentence())
+        browser.fill('titleInfo[subTitle]', str(time.strftime("%m/%d/%Y %H:%M:%S"))+' '+lorem.generate_sentence())
         browser.fill('originInfo[dateIssued]', '2018')
 
         print ('\tclicking Next to the upload page')
