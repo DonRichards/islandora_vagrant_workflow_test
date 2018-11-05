@@ -57,6 +57,8 @@ $ pip install pipenv
 # this installs the modules
 $ pipenv sync
 
+Using `pipenv install` instead or `pipenv update` if you've already run this once as alternatives. Sometime deleting the Pipfile.lock in this directory will help to reset pipenv. 
+
 # this starts the python environment (optional and not suggested)
 $ pipenv shell
 
