@@ -198,7 +198,8 @@ while (counter < how_many_submissions_to_submit):
 
         browser.find_option_by_text(random.choice(countries)).click()
 
-        browser.fill('subject[hierarchicalGeographic][country]',lorem.generate_sentence())
+        # This section is incomplete and needs to be finished.
+        browser.fill('subject[hierarchicalGeographic][country]',random.choice(countries))
         browser.fill('subject[hierarchicalGeographic][province]',lorem.generate_sentence())
         browser.fill('subject[hierarchicalGeographic][region]',lorem.generate_sentence())
         browser.fill('subject[hierarchicalGeographic][county]',lorem.generate_sentence())
