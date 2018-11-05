@@ -33,7 +33,7 @@ supplimental_file = dir_path + '/Example_ETD.jpg'
 path_to_PDFs = (dir_path)
 
 # Set URL:
-url = "http://localhost:8000/user/"
+url = "http://localhost:8000"
 
 # Set number of submissions to test:
 how_many_submissions_to_submit = 0
@@ -88,13 +88,13 @@ if how_many_submissions_to_submit < 3:
 
 # Check to see if role exist
 with Browser('chrome') as browser:
-    browser.visit(url)
+    browser.visit(url+'/user')
     browser.fill('name', 'admin')
     browser.fill('pass', 'islandora')
     button = browser.find_by_id('edit-submit')
     button.click()
-    print ('\n\nInitial Checks for user roles\n\tGoing to http://localhost:8000/admin/people')
-    browser.visit('http://localhost:8000/admin/people/permissions/roles')
+    print ('\n\nInitial Checks for user roles\n\tGoing to ' + url + '/admin/people')
+    browser.visit(url+'/admin/people/permissions/roles')
     # time.sleep(3)
     if browser.is_text_not_present('submitter'):
         print ('\tno submitter role')
@@ -118,19 +118,19 @@ with Browser('chrome') as browser:
     print('\tUser roles ready...\n')
     # time.sleep(5)
 
-print('Initial Checks for non-admin user account\nCheck to see if ' + str(username) + ' exist')
+print('Initial Checks for non-admin user account\n\tCheck to see if ' + str(username) + ' exist')
 with Browser('chrome') as browser:
-    browser.visit(url)
+    browser.visit(url+'/user')
     browser.fill('name', 'admin')
     browser.fill('pass', 'islandora')
     button = browser.find_by_id('edit-submit')
     button.click()
 
     print ('\tLooking at list of users for ' + str(username))
-    browser.visit('http://localhost:8000/admin/people')
+    browser.visit(url+'/admin/people')
     if browser.is_text_not_present(username):
         print ('\tno' + str(username))
-        browser.visit('http://localhost:8000/admin/people/create')
+        browser.visit(url+'/admin/people/create')
         browser.fill('name', str(username))
         browser.fill('mail', 'userb@example.com')
         browser.fill('pass[pass1]', str(password))
@@ -163,8 +163,8 @@ while (counter < how_many_submissions_to_submit):
         button.click()
 
         # From Profile Page click the collection to submit to.
-        print ('\tGoing to http://localhost:8000/islandora/object/islandora%3Asp_basic_image_collection/manage/overview/ingest')
-        browser.visit('http://localhost:8000/islandora/object/islandora%3Asp_basic_image_collection/manage/overview/ingest')
+        print ('\tGoing to ' + url + '/islandora/object/islandora%3Asp_basic_image_collection/manage/overview/ingest')
+        browser.visit(url+'/islandora/object/islandora%3Asp_basic_image_collection/manage/overview/ingest')
 
         print ('\tclicking Next to start submission')
         button = browser.find_by_id('edit-next')
