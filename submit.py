@@ -17,9 +17,8 @@ from transliterate.contrib.apps.translipsum import TranslipsumGenerator
 from splinter import Browser
 import os
 
-# Randomly select a language. EN will cause errors at this time.
-languages = ['el', 'hy', 'ka', 'ru']
-lorem = TranslipsumGenerator(language_code=random.choice(languages))
+# Randomly select a language. Remove ", reversed=True" to test other language characters.
+lorem = TranslipsumGenerator(language_code=random.choice(get_available_language_codes()), reversed=True)
 
 # Current working dirrectory
 dir_path = os.getcwd()
