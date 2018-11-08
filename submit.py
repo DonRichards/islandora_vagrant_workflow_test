@@ -85,6 +85,16 @@ my_PDF = dir_path + '/' + random.choice([f for f in os.listdir(path_to_PDFs) if 
 if how_many_submissions_to_submit < 3:
     how_many_submissions_to_submit = 3
 
+# Check if page loaded
+def page_has_loaded(self):
+    if self.find('/overview/ingest') == -1:
+        print('\t' + browser.url + '\n\n')
+        return browser.url
+    else:
+        print('\tChecking page status')
+        time.sleep(3)
+        page_has_loaded(browser.url)
+
 # Check to see if role exist
 with Browser('chrome') as browser:
     browser.visit(url+'/user')
@@ -153,9 +163,9 @@ while (counter < how_many_submissions_to_submit):
         print ('\n \t<-------------- #' + str(how_many_submissions_to_submit-counter) + ' of user submissions basic image -------------->')
         # Visit URL
         browser.visit(url)
-        print ('\t' + str(username) + ' is logging in at ' + str(url))
-        browser.fill('name', username)
-        browser.fill('pass', password)
+        print ('\tadmin is logging in at ' + str(url))
+        browser.fill('name', 'admin')
+        browser.fill('pass', 'islandora')
 
         # find the search button on the page and click it.
         button = browser.find_by_id('edit-submit')
@@ -218,10 +228,8 @@ while (counter < how_many_submissions_to_submit):
         print ('\tClicking Injest')
         button = browser.find_by_id('edit-next')
         button.click()
-
         print ('\tPausing for ingest to complete')
-        # time.sleep(3)
-        print ('\t' + str(browser.url) + '\n\n')
+        page_has_loaded(browser.url)
         counter = counter + 1
 ########### END user submissions basic image ###########
 
