@@ -27,6 +27,7 @@ dir_path = os.getcwd()
 
 # Set IMAGE: File path(s) need to be absolute
 supplimental_file = dir_path + '/Example_ETD.jpg'
+lg_img_file = dir_path + '/Example_ETD.tiff'
 
 # Set PDF: Folder to look for pdfs
 path_to_PDFs = (dir_path)
@@ -255,6 +256,80 @@ while (counter < how_many_submissions_to_submit):
 ########### END user submissions Entity Collection #######
 
 ########### user submissions Large Image Collection ###########
+while (counter < how_many_submissions_to_submit):
+    with Browser('chrome', headless = headless_status) as browser:
+        print ('\n \t<-------------- #' + str(how_many_submissions_to_submit-counter) + ' of user submissions large image -------------->')
+        # Visit URL
+        browser.visit(url)
+        print ('\tadmin is logging in at ' + str(url))
+        browser.fill('name', 'admin')
+        browser.fill('pass', 'islandora')
+
+        # find the search button on the page and click it.
+        button = browser.find_by_id('edit-submit')
+        button.click()
+
+        # From Profile Page click the collection to submit to.
+        print ('\tGoing to ' + url + '/islandora/object/islandora%3Asp_large_image_collection/manage/overview/ingest')
+        browser.visit(url+'/islandora/object/islandora%3Asp_large_image_collection/manage/overview/ingest')
+
+        print ('\tclicking Next to start submission')
+        button = browser.find_by_id('edit-next')
+        button.click()
+        # Filling out the form.
+        print ('\tfilling out form')
+        browser.fill('titleInfo[title]', str(time.strftime("%m/%d/%Y %H:%M:%S"))+' '+lorem.generate_sentence())
+        browser.fill('titleInfo[subTitle]', str(time.strftime("%m/%d/%Y %H:%M:%S"))+' '+lorem.generate_sentence())
+
+        browser.find_option_by_text(random.choice(type_of_resource)).click()
+        browser.fill('genre', random.choice(genre))
+        browser.fill('originInfo[dateIssued]', '2018')
+        browser.fill('originInfo[dateCreated]', '2018')
+        browser.fill('originInfo[publisher]', random.choice(publishers))
+        browser.fill('originInfo[country]', random.choice(countries))
+        browser.fill('originInfo[place]', random.choice(places))
+        browser.fill('language', random.choice(languages))
+
+        browser.fill('abstract', lorem.generate_paragraph())
+        browser.fill('identifier', str(time.strftime("%Y%m%d%H%M%S")))
+
+        browser.find_option_by_text(random.choice(physical_description)).click()
+        browser.fill('physicalDescription[extent]', '1 online resource (78 pages)')
+
+        browser.fill('note',lorem.generate_sentence())
+
+        browser.fill('subject[topic][0]',lorem.generate_sentence())
+        browser.fill('subject[geographic][0]',lorem.generate_sentence())
+        browser.fill('subject[temporal][0]',lorem.generate_sentence())
+
+        browser.find_option_by_text(random.choice(countries)).click()
+
+        # This section is incomplete and needs to be finished.
+        browser.fill('subject[hierarchicalGeographic][country]',random.choice(countries))
+        browser.fill('subject[hierarchicalGeographic][province]',lorem.generate_sentence())
+        browser.fill('subject[hierarchicalGeographic][region]',lorem.generate_sentence())
+        browser.fill('subject[hierarchicalGeographic][county]',lorem.generate_sentence())
+        browser.fill('subject[hierarchicalGeographic][city]',lorem.generate_sentence())
+        browser.fill('subject[hierarchicalGeographic][citySection]',lorem.generate_sentence())
+        browser.fill('subject[cartographics][coordinates]','37° 27.432′ N, 115° 28.962′ W')
+
+        print ('\tclicking Next to the upload page')
+        button = browser.find_by_id('edit-next')
+        button.click()
+
+        # time.sleep(10)
+        print ('\tuploading file(s)')
+        browser.attach_file('files[file]', str(lg_img_file))
+        browser.find_by_name('file_upload_button').first.click()
+
+        print ('\tClicking Injest')
+        button = browser.find_by_id('edit-next')
+        button.click()
+        page_has_loaded(browser.url)
+        print ('\t'+ browser.url)
+        counter = counter + 1
+counter = 0
+print('\n')
 ########### END user submissions Large Image Collection #######
 
 ########### user submissions Newspaper Collection ###########
