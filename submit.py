@@ -40,6 +40,8 @@ how_many_submissions_to_submit = 0
 username = 'userB'
 password = 'userB'
 str1 = ''
+
+headless_status = False
 ########### END SET config section ###########
 
 ########### Lists to use for random selections ###########
@@ -96,7 +98,7 @@ def page_has_loaded(self):
         page_has_loaded(browser.url)
 
 # Check to see if role exist
-with Browser('chrome') as browser:
+with Browser('chrome', headless = headless_status) as browser:
     browser.visit(url+'/user')
     browser.fill('name', 'admin')
     browser.fill('pass', 'islandora')
@@ -128,7 +130,7 @@ with Browser('chrome') as browser:
     # time.sleep(5)
 
 print('Initial Checks for non-admin user account\n\tCheck to see if ' + str(username) + ' exist')
-with Browser('chrome') as browser:
+with Browser('chrome', headless = headless_status) as browser:
     browser.visit(url+'/user')
     browser.fill('name', 'admin')
     browser.fill('pass', 'islandora')
@@ -159,7 +161,7 @@ counter = 0
 
 ########### user submissions basic image ###########
 while (counter < how_many_submissions_to_submit):
-    with Browser('chrome') as browser:
+    with Browser('chrome', headless = headless_status) as browser:
         print ('\n \t<-------------- #' + str(how_many_submissions_to_submit-counter) + ' of user submissions basic image -------------->')
         # Visit URL
         browser.visit(url)
@@ -235,6 +237,10 @@ while (counter < how_many_submissions_to_submit):
 
 
 ########### user submissions Book Collection ###########
+# 1. create typical submission with pdf
+# 2. create submission without pdf
+# 2a. add pdf as PDF datastream
+
 ########### END user submissions Book Collection #######
 
 ########### user submissions Citations ###########
