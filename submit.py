@@ -165,9 +165,9 @@ while (counter < how_many_submissions_to_submit):
         print ('\n \t<-------------- #' + str(how_many_submissions_to_submit-counter) + ' of user submissions basic image -------------->')
         # Visit URL
         browser.visit(url)
-        print ('\tadmin is logging in at ' + str(url))
-        browser.fill('name', 'admin')
-        browser.fill('pass', 'islandora')
+        print ('\t' + str(username) + ' is logging in at ' + str(url))
+        browser.fill('name', username)
+        browser.fill('pass', password)
 
         # find the search button on the page and click it.
         button = browser.find_by_id('edit-submit')
@@ -230,9 +230,13 @@ while (counter < how_many_submissions_to_submit):
         print ('\tClicking Injest')
         button = browser.find_by_id('edit-next')
         button.click()
-        print ('\tPausing for ingest to complete')
+        # time.sleep(3)
+
         page_has_loaded(browser.url)
+        print ('\t'+ browser.url)
         counter = counter + 1
+counter = 0
+print('\n')
 ########### END user submissions basic image ###########
 
 
