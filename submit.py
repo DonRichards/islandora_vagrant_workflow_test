@@ -89,13 +89,12 @@ if how_many_submissions_to_submit < 3:
 
 # Check if page loaded
 def page_has_loaded(self):
-    if self.find('/overview/ingest') == -1:
-        print('\t' + browser.url + '\n\n')
-        return browser.url
+    if self != str(browser.url):
+        return str(browser.url)
     else:
-        print('\tChecking page status')
+        print('\tWaiting for process to complete.')
         time.sleep(3)
-        page_has_loaded(browser.url)
+        page_has_loaded(self)
 
 # Check to see if role exist
 with Browser('chrome', headless = headless_status) as browser:
