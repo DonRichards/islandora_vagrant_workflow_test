@@ -32,7 +32,7 @@ $ [sudo] pip install selenium
 
 It’s important to note that you also need to have Google Chrome installed in your machine.
 ```terminal
-$ brew install chromedriver
+$ brew cask install chromedriver
 ```
 
 ## Manually Install Chrome drivers (OPTIONAL)
